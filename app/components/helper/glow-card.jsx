@@ -1,14 +1,13 @@
-"use client"
-import { useEffect } from 'react';
+"use client";
+import { useEffect } from "react";
 
-const GlowCard = ({ children , identifier}) => {
+const GlowCard = ({ children, identifier }) => {
   useEffect(() => {
-    if (typeof document !== 'undefined') {
-      // Code that uses `document` goes here
-      
-      const CONTAINER = document.querySelector(`.glow-container-${identifier}`);
-      const CARDS = document.querySelectorAll(`.glow-card-${identifier}`);
-    }
+    if (typeof document === "undefined") return;
+
+    // Safely select elements
+    const CONTAINER = document.querySelector(`.glow-container-${identifier}`);
+    const CARDS = document.querySelectorAll(`.glow-card-${identifier}`);
 
     const CONFIG = {
       proximity: 40,
@@ -20,6 +19,7 @@ const GlowCard = ({ children , identifier}) => {
     };
 
     const UPDATE = (event) => {
+      if (!CARDS.length) return; // Ensure CARDS exists
       for (const CARD of CARDS) {
         const CARD_BOUNDS = CARD.getBoundingClientRect();
 
@@ -29,9 +29,9 @@ const GlowCard = ({ children , identifier}) => {
           event?.y > CARD_BOUNDS.top - CONFIG.proximity &&
           event?.y < CARD_BOUNDS.top + CARD_BOUNDS.height + CONFIG.proximity
         ) {
-          CARD.style.setProperty('--active', 1);
+          CARD.style.setProperty("--active", 1);
         } else {
-          CARD.style.setProperty('--active', CONFIG.opacity);
+          CARD.style.setProperty("--active", CONFIG.opacity);
         }
 
         const CARD_CENTER = [
@@ -46,32 +46,28 @@ const GlowCard = ({ children , identifier}) => {
 
         ANGLE = ANGLE < 0 ? ANGLE + 360 : ANGLE;
 
-        CARD.style.setProperty('--start', ANGLE + 90);
+        CARD.style.setProperty("--start", ANGLE + 90);
       }
     };
-    if (typeof document !== 'undefined') {
-      document.body.addEventListener('pointermove', UPDATE);
-    }
-    
 
     const RESTYLE = () => {
-      CONTAINER.style.setProperty('--gap', CONFIG.gap);
-      CONTAINER.style.setProperty('--blur', CONFIG.blur);
-      CONTAINER.style.setProperty('--spread', CONFIG.spread);
+      if (!CONTAINER) return; // Ensure CONTAINER exists
+      CONTAINER.style.setProperty("--gap", CONFIG.gap);
+      CONTAINER.style.setProperty("--blur", CONFIG.blur);
+      CONTAINER.style.setProperty("--spread", CONFIG.spread);
       CONTAINER.style.setProperty(
-        '--direction',
-        CONFIG.vertical ? 'column' : 'row'
+        "--direction",
+        CONFIG.vertical ? "column" : "row"
       );
     };
 
+    // Apply initial styles and event listener
     RESTYLE();
-    UPDATE();
+    document.body.addEventListener("pointermove", UPDATE);
 
-    // Cleanup event listener
+    // Cleanup event listener on unmount
     return () => {
-      if (typeof document !== 'undefined') {
-        document.body.removeEventListener('pointermove', UPDATE);
-      }
+      document.body.removeEventListener("pointermove", UPDATE);
     };
   }, [identifier]);
 

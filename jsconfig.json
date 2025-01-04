@@ -1,13 +1,7 @@
-
 {
   "compilerOptions": {
-    "baseUrl": ".", // Set the base URL for the project
     "paths": {
-      "@components/*": ["components/*"], // Path alias for components folder
-      "@lib/*": ["lib/*"], // Path alias for utility libraries
-      "@styles/*": ["styles/*"], // Path alias for styles
-      "@pages/*": ["pages/*"] // Path alias for pages
+      "@/*": ["./*"]
     }
-  },
-  "exclude": ["node_modules"] // Exclude node_modules from IntelliSense
+  }
 }

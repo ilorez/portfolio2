@@ -1,29 +1,26 @@
-const nextConfig = {
-  reactStrictMode: true, // Enable React strict mode
-  swcMinify: true, // Use SWC for faster builds and smaller bundle size
-  experimental: {
-    appDir: true, // Enable experimental app directory for routing
-  },
-  webpack: (config) => {
-    // Example: Adding custom Webpack plugins or loaders
-    return config;
+const path = require('path')
+ 
+module.exports = {
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'styles')],
   },
   images: {
-    domains: ['example.com'], // Allow external image domains for <Image /> component
-  },
-  env: {
-    NEXT_PUBLIC_GTM: process.env.NEXT_PUBLIC_GTM, // Public environment variables
-    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
-  },
-  async redirects() {
-    return [
+    remotePatterns: [
       {
-        source: '/old-route',
-        destination: '/new-route',
-        permanent: true, // Indicates a 308 permanent redirect
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        pathname: '**',
       },
-    ];
+      {
+        protocol: 'https',
+        hostname: 'media.dev.to',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'media2.dev.to',
+        pathname: '**',
+      },
+    ],
   },
-};
-
-module.exports = nextConfig;
+}

@@ -37,18 +37,18 @@ export default function Home() {
   // });
 
   // }, []);
-  
+
 
   return (
     <>
-      <HeroSection />
-      <AboutSection />
-      <Experience />
+      {/* #007BF<HeroSection /> */}
+      {/* <AboutSection /> */}
+      {/* <Experience /> */}
       <Skills />
-      <Projects />
-      <Education />
+      {/* <Projects /> */}
+      {/* <Education /> */}
       {/* <Blog blogs={blogs} /> */}
-      <ContactSection />
+      {/* <ContactSection /> */}
     </>
   )
 };
